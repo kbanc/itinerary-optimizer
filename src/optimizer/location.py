@@ -7,8 +7,7 @@ class Location(object):
         self._street = street
         self._city = city
         self._country = country
-        #Nominatim doesn't like using the postal code
-        #self._postalcode = postalcode 
+        self._postalcode = postalcode 
         self._mandatory = mandatory
         self._role = role
         self._routeRestriction = routeRestriction
@@ -24,7 +23,7 @@ class Location(object):
   
         while attempts < 3:
             try:
-                location = locator.geocode(self._get_address())
+                location = locator.geocode(self._get_formatted_address())
                 return [location.latitude, location.longitude]
             except:
                 print("trying again")
@@ -34,6 +33,7 @@ class Location(object):
         return [0, 0]
 
     
-    def _get_address(self):
+    def _get_formatted_address(self):
+        #Nominatim doesn't like using the postal code
         return "{} {} {}".format(self._street, self._city, self._country)
 
