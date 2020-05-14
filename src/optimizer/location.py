@@ -17,6 +17,9 @@ class Location(object):
     def get_coordinates(self):
         return self._coord
     
+    def get_route_restiction(self):
+        return self._routeRestriction
+    
     def _convert_address_to_coordinates(self):
         locator = Nominatim(user_agent="itinerary-optimizer")
         attempts = 0
