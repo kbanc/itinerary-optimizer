@@ -43,50 +43,52 @@ class TestRouteCreator(unittest.TestCase):
         ]
     }
 
+    @patch('requests.get')
     @patch('optimizer.csv_parser.CSVParser.parse_into_locations')
-    def test_get_locations_returns_correct_array(self, mock):
-        mock.return_value = ['hi', 'bye']
+    def test_get_locations_returns_correct_array(self, mock, mockGet):
+        location1 = self.MockLocation()
+        mock.return_value = [location1]
         self.assertEqual(RouteCreator(
-            'filename').get_locations(), ['hi', 'bye'])
+            'filename').get_locations(), [location1])
 
     @patch('requests.get')
     @patch('optimizer.csv_parser.CSVParser.parse_into_locations')
-    def test_travelling_salesman_calls_correct_endpoint(self, mockRouter, mockGet):
+    def test_init_constructs_route_calls_correct_endpoint(self, mockRouter, mockGet):
         location1 = self.MockLocation()
         location2 = self.MockLocation()
         location1.routeRestriction = 'start'
         mockRouter.return_value = [location1, location2]
-        RouteCreator('filename').calculate_route()
+        RouteCreator('filename')
         mockGet.assert_called_with('http://router.project-osrm.org/trip/v1/driving/{},{};{},{}?source=first'.format(
             location1.lat, location1.long, location2.lat, location2.long))
 
     @patch('requests.get')
     @patch('optimizer.csv_parser.CSVParser.parse_into_locations')
-    def test_travelling_salesman_calls_correct_endpoint_with_three_locations(self, mockRouter, mockGet):
+    def test_init_constructs_route_calls_correct_endpoint_with_three_locations(self, mockRouter, mockGet):
         location1 = self.MockLocation()
         location2 = self.MockLocation()
         location3 = self.MockLocation()
         location1.routeRestriction = 'start'
         mockRouter.return_value = [location1, location2, location3]
-        RouteCreator('filename').calculate_route()
+        RouteCreator('filename')
         mockGet.assert_called_with('http://router.project-osrm.org/trip/v1/driving/{},{};{},{};{},{}?source=first'.format(
             location1.lat, location1.long, location2.lat, location2.long, location3.lat, location3.long))
 
     @patch('requests.get')
     @patch('optimizer.csv_parser.CSVParser.parse_into_locations')
-    def test_travelling_salesman_calls_correct_endpoint_with_correct_coordinate_order(self, mockRouter, mockGet):
+    def test_init_constructs_route_calls_correct_endpoint_with_correct_coordinate_order(self, mockRouter, mockGet):
         location1 = self.MockLocation()
         location2 = self.MockLocation()
         location3 = self.MockLocation()
         location2.routeRestriction = 'start'
         mockRouter.return_value = [location1, location2, location3]
-        RouteCreator('filename').calculate_route()
+        RouteCreator('filename')
         mockGet.assert_called_with('http://router.project-osrm.org/trip/v1/driving/{},{};{},{};{},{}?source=first'.format(
             location2.lat, location2.long, location1.lat, location1.long, location3.lat, location3.long))
 
     @patch('requests.get')
     @patch('optimizer.csv_parser.CSVParser.parse_into_locations')
-    def test_travelling_salesman_correctly_parses_response(self, mockRouter, mockGet):
+    def test_get_route_returns_expected_response(self, mockRouter, mockGet):
         location1 = self.MockLocation()
         location2 = self.MockLocation()
         location3 = self.MockLocation()
@@ -110,10 +112,19 @@ class TestRouteCreator(unittest.TestCase):
                           }
                          ]
 
-        route = RouteCreator('filename').calculate_route()
+        route = RouteCreator('filename').get_route()
         self.assertEqual(route, expectedRoute)
 
     def test_total_distance_returns_correct_val(self):
+        # location1 = self.MockLocation()
+        # location2 = self.MockLocation()
+        # location3 = self.MockLocation()
+        # location2.routeRestriction = 'start'
+        # mockGet.return_value = self.mockJson
+        # mockRouter.return_value = [location1, location2, location3]
+
+        # distance = RouteCreator('filename').get_total_distance()
+        # self.assertEqual(route, expectedRoute)
         pass
 
     def test_total_time_returns_correct_val(self):

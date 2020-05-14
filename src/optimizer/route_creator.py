@@ -5,13 +5,16 @@ class RouteCreator(object):
 
     def __init__(self, filename):
         self._locations = CSVParser.parse_into_locations(filename)
-        self._route = None
+        self._route = self._calculate_route()
     
     def get_locations(self):
         return self._locations
     
-    def calculate_route(self): #this could be private
-        self._route = []
+    def get_route(self):
+        return self._route
+    
+    def _calculate_route(self): #this could be private
+        route = []
         osmAPIAddr = 'http://router.project-osrm.org/trip/v1/driving/'
         routeData = requests.get(osmAPIAddr + self._make_lat_long_string() + '?source=first')
 
@@ -25,10 +28,10 @@ class RouteCreator(object):
                 endLocation = self._locations[destinationOrder[index+1]]
             else:
                 endLocation = self._locations[destinationOrder[0]]
-            self._route.append({'start': startLocation, 'end': endLocation, 'distance': leg['distance'],
+            route.append({'start': startLocation, 'end': endLocation, 'distance': leg['distance'],
             'duration': leg['duration']})
-        
-        return self._route
+        return route
+
 
     def _make_lat_long_string(self):
         self._reorder_locations()
