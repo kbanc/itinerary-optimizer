@@ -20,3 +20,15 @@ class TestLocation(unittest.TestCase):
         restriction = newLocation.get_route_restiction()
         self.assertEqual(restriction, "start")
 
+    @patch('geopy.geocoders.Nominatim')
+    def test_get_address(self, mockGeocode):
+        newLocation = Location(street="10 Kings College Circle", city="Toronto", country="Canada", postalcode="M5S1A1", mandatory="true", role="carpickup", routeRestriction="start")
+        address = newLocation.get_address()
+        self.assertEqual(address, "10 Kings College Circle, Toronto")
+
+    @patch('geopy.geocoders.Nominatim')
+    def test_get_role(self, mockGeocode):
+        newLocation = Location(street="10 Kings College Circle", city="Toronto", country="Canada", postalcode="M5S1A1", mandatory="true", role="carpickup", routeRestriction="start")
+        notes = newLocation.get_role()
+        self.assertEqual(notes, "carpickup")
+

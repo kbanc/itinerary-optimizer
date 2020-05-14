@@ -20,6 +20,12 @@ class Location(object):
     def get_route_restiction(self):
         return self._routeRestriction
     
+    def get_address(self):
+        return "{}, {}".format(self._street, self._city)
+    
+    def get_role(self):
+        return self._role
+    
     def _convert_address_to_coordinates(self):
         locator = Nominatim(user_agent="itinerary-optimizer")
         attempts = 0

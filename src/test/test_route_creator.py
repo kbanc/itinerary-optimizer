@@ -18,8 +18,10 @@ class TestRouteCreator(unittest.TestCase):
 
         def get_route_restiction(self):
             return self.routeRestriction
-
-    mockJson = {
+    
+    class MockResponse(object):
+        def json(self):
+            return {
         'waypoints': [
             {"waypoint_index": 0},
             {"waypoint_index": 2},
@@ -93,7 +95,7 @@ class TestRouteCreator(unittest.TestCase):
         location2 = self.MockLocation()
         location3 = self.MockLocation()
         location2.routeRestriction = 'start'
-        mockGet.return_value = self.mockJson
+        mockGet.return_value = self.MockResponse()
         mockRouter.return_value = [location1, location2, location3]
         expectedRoute = [{'start': location2,
                           'end': location3,
@@ -122,7 +124,7 @@ class TestRouteCreator(unittest.TestCase):
         location2 = self.MockLocation()
         location3 = self.MockLocation()
         location2.routeRestriction = 'start'
-        mockGet.return_value = self.mockJson
+        mockGet.return_value = self.MockResponse()
         mockRouter.return_value = [location1, location2, location3]
 
         distance = RouteCreator('filename').get_total_distance()
@@ -135,7 +137,7 @@ class TestRouteCreator(unittest.TestCase):
         location2 = self.MockLocation()
         location3 = self.MockLocation()
         location2.routeRestriction = 'start'
-        mockGet.return_value = self.mockJson
+        mockGet.return_value = self.MockResponse()
         mockRouter.return_value = [location1, location2, location3]
 
         distance = RouteCreator('filename').get_total_duration()

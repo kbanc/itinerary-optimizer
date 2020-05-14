@@ -29,7 +29,8 @@ class RouteCreator(object):
         route = []
         osmAPIAddr = 'http://router.project-osrm.org/trip/v1/driving/'
         routeData = requests.get(osmAPIAddr + self._make_lat_long_string() + '?source=first')
-
+        routeData = routeData.json()
+        print(routeData)
         destinationOrder = [0]*len(self.get_locations())
         for index, waypoint in enumerate(routeData['waypoints']):
             destinationOrder[int(waypoint['waypoint_index'])] = index

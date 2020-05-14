@@ -1,10 +1,9 @@
 from optimizer.route_creator import RouteCreator
+from optimizer.generate_document import generate_doc
 
 def main():
     r = RouteCreator('/Users/katherinebancroft/Desktop/Book1.csv')
-
-    for location in r.get_locations():
-        print(location._street)
+    generate_doc(r)
 
 if __name__ == "__main__":
     main()
