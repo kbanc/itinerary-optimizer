@@ -21,7 +21,7 @@ class Location(object):
         locator = Nominatim(user_agent="itinerary-optimizer")
         attempts = 0
   
-        while attempts < 3:
+        while attempts < 0:
             try:
                 location = locator.geocode(self._get_formatted_address())
                 return [location.latitude, location.longitude]
