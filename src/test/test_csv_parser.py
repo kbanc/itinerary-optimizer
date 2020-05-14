@@ -1,6 +1,5 @@
 import unittest
 from unittest.mock import mock_open, patch, MagicMock
-from faker import Faker
 
 @patch("optimizer.location.Location")
 class TestCSVParser(unittest.TestCase):
@@ -22,7 +21,7 @@ class TestCSVParser(unittest.TestCase):
     def test_creates_location_object_with_data(self, mockLocation):
         mockLocation.return_value = 'foo'
         from optimizer.csv_parser import CSVParser
-        with patch("builtins.open", mock_open(read_data="street,city,country,postalcode,mandatory,role,routeRestriction,nearestIntersection\n123 Sesame St,Fairy,Land,987654,TRUE,car,start,bloor")) as m:
+        with patch("builtins.open", mock_open(read_data="street,city,country,postalcode,mandatory,role,routeRestriction,nearestIntersection\n123 Sesame St,Fairy,Land,987654,TRUE,car,start,bloor")):
             CSVParser.parse_into_locations('myfakename')
             mockLocation.assert_called_with('123 Sesame St', 'Fairy', 'Land', '987654', 'TRUE', 'car', 'start', 'bloor')
 
@@ -30,13 +29,13 @@ class TestCSVParser(unittest.TestCase):
     def test_creates_location_object_with_data_no_intersection(self, mockLocation):
         mockLocation.return_value = 'foo'
         from optimizer.csv_parser import CSVParser
-        with patch("builtins.open", mock_open(read_data="street,city,country,postalcode,mandatory,role,routeRestriction,nearestIntersection\n123 Sesame St,Fairy,Land,987654,TRUE,car,start")) as m:
+        with patch("builtins.open", mock_open(read_data="street,city,country,postalcode,mandatory,role,routeRestriction,nearestIntersection\n123 Sesame St,Fairy,Land,987654,TRUE,car,start")):
             CSVParser.parse_into_locations('myfakename')
             mockLocation.assert_called_with('123 Sesame St', 'Fairy', 'Land', '987654', 'TRUE', 'car', 'start')
 
     def test_returns_location_list(self, mockLocation):
         mockLocation.return_value = 'foo'
         from optimizer.csv_parser import CSVParser
-        with patch("builtins.open", mock_open(read_data="street,city,country,postalcode,mandatory,role,routeRestriction,nearestIntersection\n123 Sesame St,Fairy,Land,987654,TRUE,car,start,bloor")) as m:
+        with patch("builtins.open", mock_open(read_data="street,city,country,postalcode,mandatory,role,routeRestriction,nearestIntersection\n123 Sesame St,Fairy,Land,987654,TRUE,car,start,bloor")):
             locations = CSVParser.parse_into_locations('myfakename')
         self.assertEqual(locations, ['foo'])
