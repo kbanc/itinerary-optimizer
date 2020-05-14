@@ -13,6 +13,18 @@ class RouteCreator(object):
     def get_route(self):
         return self._route
     
+    def get_total_distance(self):
+        distance = 0
+        for leg in self._route:
+            distance += leg['distance']
+        return distance
+    
+    def get_total_duration(self):
+        duration = 0
+        for leg in self._route:
+            duration += leg['duration']
+        return duration
+    
     def _calculate_route(self): #this could be private
         route = []
         osmAPIAddr = 'http://router.project-osrm.org/trip/v1/driving/'

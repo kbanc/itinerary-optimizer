@@ -115,17 +115,28 @@ class TestRouteCreator(unittest.TestCase):
         route = RouteCreator('filename').get_route()
         self.assertEqual(route, expectedRoute)
 
-    def test_total_distance_returns_correct_val(self):
-        # location1 = self.MockLocation()
-        # location2 = self.MockLocation()
-        # location3 = self.MockLocation()
-        # location2.routeRestriction = 'start'
-        # mockGet.return_value = self.mockJson
-        # mockRouter.return_value = [location1, location2, location3]
+    @patch('requests.get')
+    @patch('optimizer.csv_parser.CSVParser.parse_into_locations')
+    def test_total_distance_returns_correct_val(self, mockRouter, mockGet):
+        location1 = self.MockLocation()
+        location2 = self.MockLocation()
+        location3 = self.MockLocation()
+        location2.routeRestriction = 'start'
+        mockGet.return_value = self.mockJson
+        mockRouter.return_value = [location1, location2, location3]
 
-        # distance = RouteCreator('filename').get_total_distance()
-        # self.assertEqual(route, expectedRoute)
-        pass
+        distance = RouteCreator('filename').get_total_distance()
+        self.assertEqual(distance, 2442.7+1533.6+2286.8)
+        
+    @patch('requests.get')
+    @patch('optimizer.csv_parser.CSVParser.parse_into_locations')
+    def test_total_time_returns_correct_val(self, mockRouter, mockGet):
+        location1 = self.MockLocation()
+        location2 = self.MockLocation()
+        location3 = self.MockLocation()
+        location2.routeRestriction = 'start'
+        mockGet.return_value = self.mockJson
+        mockRouter.return_value = [location1, location2, location3]
 
-    def test_total_time_returns_correct_val(self):
-        pass
+        distance = RouteCreator('filename').get_total_duration()
+        self.assertEqual(distance, 442.8+250.5+385.4)
