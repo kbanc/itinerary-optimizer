@@ -10,9 +10,13 @@ class TestRouteCreator(unittest.TestCase):
             fake = Faker()
             self.lat = fake.latitude()
             self.long = fake.longitude()
+            self.routeRestriction = None
 
         def get_coordinates(self):
             return [self.lat, self.long]
+        
+        def get_route_restiction(self):
+            return self.routeRestriction
 
     @patch('optimizer.csv_parser.CSVParser.parse_into_locations')
     def test_get_locations_returns_correct_array(self, mock):
@@ -24,9 +28,10 @@ class TestRouteCreator(unittest.TestCase):
     def test_travelling_salesman_calls_correct_endpoint(self, mockRouter, mockGet):
         location1 = self.MockLocation()
         location2 = self.MockLocation()
+        location1.routeRestriction = 'start'
         mockRouter.return_value = [location1, location2]
         RouteCreator('filename').calculate_route()
-        mockGet.assert_called_with('http://router.project-osrm.org/trip/v1/driving/{},{};{},{}'.format(location1.lat, location1.long, location2.lat, location2.long))
+        mockGet.assert_called_with('http://router.project-osrm.org/trip/v1/driving/{},{};{},{}?source=first'.format(location1.lat, location1.long, location2.lat, location2.long))
 
     @patch('requests.get')
     @patch('optimizer.csv_parser.CSVParser.parse_into_locations')
@@ -34,11 +39,24 @@ class TestRouteCreator(unittest.TestCase):
         location1 = self.MockLocation()
         location2 = self.MockLocation()
         location3 = self.MockLocation()
+        location1.routeRestriction = 'start'
         mockRouter.return_value = [location1, location2, location3]
         RouteCreator('filename').calculate_route()
-        mockGet.assert_called_with('http://router.project-osrm.org/trip/v1/driving/{},{};{},{};{},{}'.format(\
+        mockGet.assert_called_with('http://router.project-osrm.org/trip/v1/driving/{},{};{},{};{},{}?source=first'.format(\
         location1.lat, location1.long, location2.lat, location2.long, location3.lat, location3.long))
-        
+
+    @patch('requests.get')
+    @patch('optimizer.csv_parser.CSVParser.parse_into_locations')
+    def test_travelling_salesman_calls_correct_endpoint_with_correct_coordinate_order(self, mockRouter, mockGet):
+        location1 = self.MockLocation()
+        location2 = self.MockLocation()
+        location3 = self.MockLocation()
+        location2.routeRestriction = 'start'
+        mockRouter.return_value = [location1, location2, location3]
+        RouteCreator('filename').calculate_route()
+        mockGet.assert_called_with('http://router.project-osrm.org/trip/v1/driving/{},{};{},{};{},{}?source=first'.format(\
+        location2.lat, location2.long, location1.lat, location1.long,location3.lat, location3.long))
+
     def test_travelling_salesman_parses_route(self):
         pass
 
