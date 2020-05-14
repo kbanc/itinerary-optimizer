@@ -1,4 +1,4 @@
-from docx.document import Document
+from docx import Document
 from datetime import datetime
 
 def generate_doc(route):
@@ -15,7 +15,7 @@ def generate_doc(route):
 
     document.add_heading("Detailed Itinerary", 2)
     detailedRoute = route.get_route()
-    table = document.add_table(rows = 1, col=6)
+    table = document.add_table(rows = 1, cols=6)
     headers = ['Route Leg #', "Expected Time", "Total time",  "Starting Address", "Ending Address", "Distance"]
     row_populator(table.rows[0].cells, headers)
     time = 0

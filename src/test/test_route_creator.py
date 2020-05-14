@@ -27,7 +27,7 @@ class TestRouteCreator(unittest.TestCase):
             {"waypoint_index": 2},
             {"waypoint_index": 1}
         ],
-        'legs': [{
+        'trips':[{'legs': [{
             "weight": 681.9,
             "duration": 442.8,
             "distance": 2442.7
@@ -43,6 +43,7 @@ class TestRouteCreator(unittest.TestCase):
             "distance": 2286.8
         }
         ]
+        }]
     }
 
     @patch('requests.get')
@@ -61,7 +62,7 @@ class TestRouteCreator(unittest.TestCase):
         location1.routeRestriction = 'start'
         mockRouter.return_value = [location1, location2]
         RouteCreator('filename')
-        mockGet.assert_called_with('http://router.project-osrm.org/trip/v1/driving/{},{};{},{}?source=first'.format(
+        mockGet.assert_called_with('http://127.0.0.1:5000/trip/v1/driving/{},{};{},{}?source=first'.format(
             location1.lat, location1.long, location2.lat, location2.long))
 
     @patch('requests.get')
@@ -73,7 +74,7 @@ class TestRouteCreator(unittest.TestCase):
         location1.routeRestriction = 'start'
         mockRouter.return_value = [location1, location2, location3]
         RouteCreator('filename')
-        mockGet.assert_called_with('http://router.project-osrm.org/trip/v1/driving/{},{};{},{};{},{}?source=first'.format(
+        mockGet.assert_called_with('http://127.0.0.1:5000/trip/v1/driving/{},{};{},{};{},{}?source=first'.format(
             location1.lat, location1.long, location2.lat, location2.long, location3.lat, location3.long))
 
     @patch('requests.get')
@@ -85,7 +86,7 @@ class TestRouteCreator(unittest.TestCase):
         location2.routeRestriction = 'start'
         mockRouter.return_value = [location1, location2, location3]
         RouteCreator('filename')
-        mockGet.assert_called_with('http://router.project-osrm.org/trip/v1/driving/{},{};{},{};{},{}?source=first'.format(
+        mockGet.assert_called_with('http://127.0.0.1:5000/trip/v1/driving/{},{};{},{};{},{}?source=first'.format(
             location2.lat, location2.long, location1.lat, location1.long, location3.lat, location3.long))
 
     @patch('requests.get')
