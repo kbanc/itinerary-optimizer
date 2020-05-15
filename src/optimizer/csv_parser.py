@@ -12,9 +12,12 @@ class CSVParser(object):
             csvReader = csv.reader(data, delimiter=",")
             csvReader.__next__() #skipping over row of headers
             for row in csvReader:
+                args = ()
                 if len(row) < 8:
-                    locationList.append(Location(row[0], row[1], row[2], row[3], row[4], row[5], row[6]))
+                    args = (row[0], row[1], row[2], row[3], row[4], row[5], row[6])
                 else:
-                    locationList.append(Location(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]))
+                    args = (row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7])
+                locationList.append(Location(*args))
+  
         return locationList
 
