@@ -8,7 +8,7 @@ This project is inspired by an operational painpoint of an NGO that needs to pic
 1. Set up or find an OSRM server for the area the locations are located in. Instructions on how to run your own OSRM server can be found in the [Quick Start guide for Project-OSRM backend](https://github.com/Project-OSRM/osrm-backend). 
 2. Create a csv file with the locations you need to visit, with the format specified below.  
 3. Clone this project
-4. Run `python -m optimizer.main`
+4. Naviagte to `src` and run `./run_optimizer.sh`
 
 #### CSV format
 The expected columns are as follows:

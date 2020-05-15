@@ -38,7 +38,7 @@ class Location(object):
                 print("trying again")
                 attempts += 1
                 RateLimiter(locator.geocode, min_delay_seconds = 1)
-        print("Coordinate lookup failed")
+        print("Coordinate lookup failed for {}".format(self.get_address()))
         return [0, 0]
 
     
