@@ -14,8 +14,8 @@ def main():
     }
     ]
     answer = prompt(questions)
-    r = RouteCreator(answer['filepath'])
-    docName = generate_doc(r)
+    route = RouteCreator(answer['filepath'])
+    docName = generate_doc(route)
     fullDocPath = '{}/{}'.format(os.getcwd(), docName)
     print('Your itinerary can be found at: {}'.format(fullDocPath))
 
