@@ -25,4 +25,4 @@ class TestMain(unittest.TestCase):
                 main()
                 s = buf.getvalue()
                 self.assertIn('Your itinerary can be found at: {}'.format(os.getcwd()),s)
-
+                
