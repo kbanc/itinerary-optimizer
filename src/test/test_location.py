@@ -15,6 +15,13 @@ class TestLocation(unittest.TestCase):
         self.assertEqual(coordinates, [43.6482699, -79.3978559])
     
     @patch('geopy.geocoders.Nominatim')
+    def test_address_to_coord_raises_exception_if_cannot_convert(self, mockGeocode):
+        mockGeocode.return_value = lambda location: 1/0
+        with self.assertRaises(Exception) as context:
+            Location(street="123 Fake Address", city="Toronto", country="Canada", postalcode="M5V2A9", mandatory="true", role="carpickup", routeRestriction="start")
+        self.assertTrue('Coordinate lookup failed for 123 Fake Address, Toronto. Check if valid address.'.format() in str(context.exception))
+          
+    @patch('geopy.geocoders.Nominatim')
     def test_get_route_restriction(self, mockGeocode):
         newLocation = Location(street="10 Kings College Circle", city="Toronto", country="Canada", postalcode="M5S1A1", mandatory="true", role="carpickup", routeRestriction="start")
         restriction = newLocation.get_route_restiction()
