@@ -4,6 +4,7 @@ from unittest.mock import mock_open, patch, MagicMock
 import csv
 import os 
 import datetime
+import docx
 
 from optimizer.route_creator import RouteCreator
 from optimizer.generate_document import generate_doc
@@ -19,9 +20,23 @@ class TestRouteCreator(unittest.TestCase):
     
     def test_doc_created_with_correct_name(self):
         r = RouteCreator('locations.csv')
-        print(r)
         docName = generate_doc(r)
         self.assertEqual(docName, 'Move_itinerary_{}.docx'.format(datetime.datetime.now().date()))
+    
+    def test_doc_created_with_correct_table_and_summary(self):
+        r = RouteCreator('locations.csv')
+        doc = docx.Document(generate_doc(r))
+        content = [p.text for p in doc.paragraphs]
+        headers = [cell.text for cell in doc.tables[0].rows[0].cells]
+        firstTableRow = [cell.text for cell in doc.tables[0].rows[1].cells]
+        secondTableRow = [cell.text for cell in doc.tables[0].rows[2].cells]
+        self.assertIn('Total distance: 0.0 m', content)
+        self.assertIn('Total duration: 0 h 0.0 min', content)
+        self.assertIn('Move Itinerary', content)
+        self.assertEqual(headers, ['Route Leg #', 'Expected Time', 'Total time', 'Starting Address', 'Ending Address', 'Distance'])
+        self.assertEqual(firstTableRow, ['1', '0', '0', '431 College St, Toronto\n (car)', '10 Kings College Rd, Toronto\n (volunteer)', '0 m'])
+        self.assertEqual(secondTableRow, ['2', '0', '0', '10 Kings College Rd, Toronto\n (volunteer)', '431 College St, Toronto\n (car)', '0 m'])
+
 
     def create_file(self):
         with open('locations.csv', 'w') as csvfile:
@@ -31,7 +46,8 @@ class TestRouteCreator(unittest.TestCase):
             filewriter.writerow(['431 College St', 'Toronto', 'Canada', 'M5T1T1', 'TRUE', 'car', 'start'])
 
     def delete_csv_file(self):
-        os.remove('locations.csv')
+        if os.path.isfile('locations.csv'):
+            os.remove('locations.csv')
 
     def delete_word_doc(self):
         filename = 'Move_itinerary_{}.docx'.format(datetime.datetime.now().date())
