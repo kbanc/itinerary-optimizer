@@ -10,7 +10,7 @@ def main():
         'type': 'input',
         'name': 'filepath',
         'message': "What's the absolute filepath to your location csv file?",
-        'validate': lambda text: os.path.isfile(text) or "File does not exist"
+        'validate': lambda text: os.path.isfile(text) or "File does not exist. Try again"
     }
     ]
     answer = prompt(questions)
