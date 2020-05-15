@@ -12,7 +12,7 @@ class TestLocation(unittest.TestCase):
     def test_initialization_convert_address_to_coord(self):
         newLocation = Location(street="481 Queen St W", city="Toronto", country="Canada", postalcode="M5V2A9", mandatory="true", role="carpickup", routeRestriction="start")
         coordinates = newLocation.get_coordinates()
-        self.assertEqual(coordinates, [43.65901691086957, -79.40501374565218])
+        self.assertEqual(coordinates, [43.6482699, -79.3978559])
     
     @patch('geopy.geocoders.Nominatim')
     def test_get_route_restriction(self, mockGeocode):
