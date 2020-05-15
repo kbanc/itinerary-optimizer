@@ -5,8 +5,8 @@ from optimizer.location import Location
 
 class TestLocation(unittest.TestCase):
 
-
-    def test_location_initialization(self):
+    @patch('optimizer.location.Nominatim')
+    def test_location_initialization(self, mockGeocode):
         Location(street="10 Kings College Circle", city="Toronto", country="Canada", postalcode="M5S1A1", mandatory="true", role="carpickup", routeRestriction="start")
 
     def test_initialization_convert_address_to_coord(self):
@@ -19,7 +19,7 @@ class TestLocation(unittest.TestCase):
         mockGeocode.return_value.geocode = lambda location: 1/0
         with self.assertRaises(Exception) as context:
             Location(street="123 Fake Address", city="Toronto", country="Canada", postalcode="M5V2A9", mandatory="true", role="carpickup", routeRestriction="start")
-        self.assertTrue('Coordinate lookup failed for 123 Fake Address, Toronto. Check if valid address.' in str(context.exception))
+        self.assertTrue("Coordinate lookup failed for 123 Fake Address, Toronto. Check if valid address." in str(context.exception))
 
     @patch('optimizer.location.Nominatim')
     def test_get_route_restriction(self, mockGeocode):

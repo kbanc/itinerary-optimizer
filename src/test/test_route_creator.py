@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import mock_open, patch, MagicMock
+from unittest.mock import patch
 from faker import Faker
 from optimizer.route_creator import RouteCreator
 

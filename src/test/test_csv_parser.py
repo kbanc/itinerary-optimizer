@@ -13,14 +13,14 @@ class TestCSVParser(unittest.TestCase):
     
     @patch("optimizer.csv_parser.Location")
     def test_throws_error_if_file_not_found(self,  mockLocation):
-        mockLocation.return_value = 'foo'
+        mockLocation.return_value = "foo"
         with self.assertRaises(Exception) as context:
             CSVParser.parse_into_locations('myfakename')
-        self.assertTrue('No such file' in str(context.exception))
+        self.assertTrue("No such file" in str(context.exception))
     
     @patch("optimizer.csv_parser.Location")
     def test_creates_location_object_with_data(self, mockLocation):
-        mockLocation.return_value = 'foo'
+        mockLocation.return_value = "foo"
         with patch("builtins.open", mock_open(read_data="street,city,country,postalcode,mandatory,role,routeRestriction,nearestIntersection\n123 Sesame St,Fairy,Land,987654,TRUE,car,start,bloor")):
             CSVParser.parse_into_locations('myfakename')
             mockLocation.assert_called_with('123 Sesame St', 'Fairy', 'Land', '987654', 'TRUE', 'car', 'start', 'bloor')

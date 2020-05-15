@@ -39,7 +39,6 @@ class Location(object):
                 RateLimiter(locator.geocode, min_delay_seconds = 1)
         raise LookupError("Coordinate lookup failed for {}. Check if valid address.".format(self.get_address()))
 
-    
     def _get_formatted_address(self):
         #Nominatim doesn't like using the postal code
         return "{} {} {}".format(self._street, self._city, self._country)
