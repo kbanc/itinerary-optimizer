@@ -19,7 +19,7 @@ class TestLocation(unittest.TestCase):
         mockGeocode.return_value.geocode = lambda location: 1/0
         with self.assertRaises(Exception) as context:
             Location(street="123 Fake Address", city="Toronto", country="Canada", postalcode="M5V2A9", mandatory="true", role="carpickup", routeRestriction="start")
-        self.assertTrue('Coordinate lookup failed for 123 Fake Address, Toronto. Check if valid address.'.format() in str(context.exception))
+        self.assertTrue('Coordinate lookup failed for 123 Fake Address, Toronto. Check if valid address.' in str(context.exception))
 
     @patch('optimizer.location.Nominatim')
     def test_get_route_restriction(self, mockGeocode):
