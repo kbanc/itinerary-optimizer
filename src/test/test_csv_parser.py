@@ -1,10 +1,9 @@
 import unittest
-from unittest.mock import mock_open, patch, MagicMock
+from unittest.mock import mock_open, patch
 
 @patch("optimizer.location.Location")
 class TestCSVParser(unittest.TestCase):
-        
-    
+
     def test_parse_into_location_takes_filename_arg(self,mockLocation):
         mockLocation.return_value = 'foo'
         from optimizer.csv_parser import CSVParser

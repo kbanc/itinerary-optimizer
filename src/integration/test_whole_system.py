@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import mock_open, patch, MagicMock
+from unittest.mock import patch
 
 import csv
 import os 
@@ -9,7 +9,7 @@ import docx
 from optimizer.route_creator import RouteCreator
 from optimizer.generate_document import generate_doc
 
-class TestRouteCreator(unittest.TestCase):
+class TestWholeSystem(unittest.TestCase):
 
     def setUp(self):
         self.create_file()
