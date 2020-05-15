@@ -18,33 +18,33 @@ class TestRouteCreator(unittest.TestCase):
 
         def get_route_restiction(self):
             return self.routeRestriction
-    
+
     class MockResponse(object):
         def json(self):
             return {
-        'waypoints': [
-            {"waypoint_index": 0},
-            {"waypoint_index": 2},
-            {"waypoint_index": 1}
-        ],
-        'trips':[{'legs': [{
-            "weight": 681.9,
-            "duration": 442.8,
-            "distance": 2442.7
-        },
-            {
-            "weight": 377.8,
-            "duration": 250.5,
-            "distance": 1533.6
-        },
-            {
-            "weight": 494.1,
-            "duration": 385.4,
-            "distance": 2286.8
-        }
-        ]
-        }]
-    }
+                'waypoints': [
+                    {"waypoint_index": 0},
+                    {"waypoint_index": 2},
+                    {"waypoint_index": 1}
+                ],
+                'trips': [{'legs': [{
+                    "weight": 681.9,
+                    "duration": 442.8,
+                    "distance": 2442.7
+                },
+                    {
+                    "weight": 377.8,
+                    "duration": 250.5,
+                    "distance": 1533.6
+                },
+                    {
+                    "weight": 494.1,
+                    "duration": 385.4,
+                    "distance": 2286.8
+                }
+                ]
+                }]
+            }
 
     @patch('requests.get')
     @patch('optimizer.csv_parser.CSVParser.parse_into_locations')
@@ -130,7 +130,7 @@ class TestRouteCreator(unittest.TestCase):
 
         distance = RouteCreator('filename').get_total_distance()
         self.assertEqual(distance, 2442.7+1533.6+2286.8)
-        
+
     @patch('requests.get')
     @patch('optimizer.csv_parser.CSVParser.parse_into_locations')
     def test_total_time_returns_correct_val(self, mockRouter, mockGet):

@@ -25,7 +25,7 @@ class RouteCreator(object):
             duration += leg['duration']
         return duration
     
-    def _calculate_route(self): #this could be private
+    def _calculate_route(self):
         route = []
         osmAPIAddr = 'http://127.0.0.1:5000/trip/v1/driving/'
         routeData = requests.get(osmAPIAddr + self._make_lat_long_string() + '?source=first')

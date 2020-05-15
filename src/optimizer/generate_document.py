@@ -28,7 +28,9 @@ def generate_doc(route):
         rowCells[4].text = "{}\n ({})".format(leg['end'].get_address(), leg['end'].get_role())
         rowCells[5].text = "{} m".format(leg['distance'])
     
-    document.save('Move_itinerary_{}.docx'.format(datetime.now().date()))
+    docName = 'Move_itinerary_{}.docx'.format(datetime.now().date())
+    document.save(docName)
+    return docName
 
 def row_populator(rowCells, content):
     for index, val in enumerate(content):
