@@ -30,12 +30,12 @@ class TestWholeSystem(unittest.TestCase):
         headers = [cell.text for cell in doc.tables[0].rows[0].cells]
         firstTableRow = [cell.text for cell in doc.tables[0].rows[1].cells]
         secondTableRow = [cell.text for cell in doc.tables[0].rows[2].cells]
-        self.assertIn('Total distance: 0.0 m', content)
-        self.assertIn('Total duration: 0 h 0.0 min', content)
+        self.assertIn('Total distance: 2.91 km', content)
+        self.assertIn('Total duration: 0.0 h 7.21 min', content)
         self.assertIn('Move Itinerary', content)
-        self.assertEqual(headers, ['Route Leg #', 'Expected Time', 'Total time', 'Starting Address', 'Ending Address', 'Distance'])
-        self.assertEqual(firstTableRow, ['1', '0', '0', '431 College St, Toronto\n (car)', '10 Kings College Rd, Toronto\n (volunteer)', '0 m'])
-        self.assertEqual(secondTableRow, ['2', '0', '0', '10 Kings College Rd, Toronto\n (volunteer)', '431 College St, Toronto\n (car)', '0 m'])
+        self.assertEqual(headers, ['Route Leg #', 'Expected Time (m)', 'Total time (m)', 'Starting Address', 'Ending Address', 'Distance (m)'])
+        self.assertEqual(firstTableRow, ['1', '3.63', '3.63', '431 College St, Toronto\n (car)', '10 Kings College Rd, Toronto\n (volunteer)', '1452.2 m'])
+        self.assertEqual(secondTableRow, ['2', '3.58', '7.21', '10 Kings College Rd, Toronto\n (volunteer)', '431 College St, Toronto\n (car)', '1452.9 m'])
 
     def test_lookup_error_thrown_if_address_cannot_be_converted_to_coord(self):
         self.create_file_bad_address()
