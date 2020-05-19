@@ -12,7 +12,7 @@ class TestLocation(unittest.TestCase):
     def test_initialization_convert_address_to_coord(self):
         newLocation = Location(street="481 Queen St W", city="Toronto", country="Canada", postalcode="M5V2A9", mandatory="true", role="carpickup", routeRestriction="start")
         coordinates = newLocation.get_coordinates()
-        self.assertEqual(coordinates, [43.6482699, -79.3978559])
+        self.assertEqual(coordinates, [-79.3978559, 43.6482699])
     
     @patch('optimizer.location.Nominatim')
     def test_address_to_coord_raises_exception_if_cannot_convert(self, mockGeocode):

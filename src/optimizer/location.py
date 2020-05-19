@@ -33,7 +33,7 @@ class Location(object):
         while attempts < 3:
             try:
                 location = locator.geocode(self._get_formatted_address())
-                return [location.latitude, location.longitude]
+                return [location.longitude, location.latitude]
             except:
                 attempts += 1
                 RateLimiter(locator.geocode, min_delay_seconds = 1)
