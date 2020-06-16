@@ -16,3 +16,4 @@ The expected columns are as follows:
 Street | City | Country | PostalCode | Mandatory | Role | RouteRestriction | nearestIntersection
 --- | --- | --- | --- |--- |--- |--- |---
 Street address (i.e. 10 King's College Rd) | City (i.e. Toronto) | Country (i.e. Canada) | Postal Code |  Does the route need to include this location? (True/False) *(still to be implemented)* | Location annotation (i.e. car pickup) | (start) if starting point | Closest major intersection *(still to be implemented)*
+
